@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# pw - repo-local wrapper around Microsoft's playwright-cli.
+# Pins the bundled Chromium build and routes snapshots/screenshots to one
+# output folder so they never land in whatever project Claude is working in.
+set -e
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && (pwd -W 2>/dev/null || pwd))"
+export PLAYWRIGHT_MCP_BROWSER="${PLAYWRIGHT_MCP_BROWSER:-chromium}"
+export PLAYWRIGHT_MCP_OUTPUT_DIR="${PLAYWRIGHT_MCP_OUTPUT_DIR:-$ROOT/.out}"
+exec node "$ROOT/node_modules/@playwright/cli/playwright-cli.js" "$@"

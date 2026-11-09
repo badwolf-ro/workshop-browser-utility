@@ -1,0 +1,18 @@
+{
+  "name": "browser-utility",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Playwright-based browser utility and skill for Claude Code",
+  "type": "module",
+  "scripts": {
+    "setup": "npm ci && node node_modules/@playwright/cli/playwright-cli.js install-browser chrome-for-testing && npm run sync-skill",
+    "sync-skill": "node scripts/sync-official-skill.mjs",
+    "install-skill": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-skill.ps1",
+    "smoke": "node bin/run.mjs scripts/smoke.mjs -- https://example.com"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@playwright/cli": "0.1.23",
+    "playwright": "1.65.0-alpha-2026-10-30"
+  }
+}
