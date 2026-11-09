@@ -4,12 +4,13 @@ A Playwright browser for Claude Code, packaged as a skill.
 
 - **`bin/pw`** (`bin/pw.cmd` on Windows shells) wraps Microsoft's [`@playwright/cli`](https://github.com/microsoft/playwright-cli). It gives you a live, named browser session that you drive one command at a time (`open`, `snapshot`, `click`, `fill`, `screenshot`, `console`, `requests`, …). It's pinned to the repo's bundled Chromium, and its output goes to `.out/`.
 - **`bin/run.mjs`** is a one-shot script runner. A script default-exports `async ({ page, context, browser, playwright, args, out }) => result`. The runner launches the browser, runs the script, prints the result as JSON and closes the browser. Scripts don't import Playwright, so they can live anywhere.
+- **`bin/ytdl`** (`bin/ytdl.cmd` on Windows shells) wraps a standalone [yt-dlp](https://github.com/yt-dlp/yt-dlp) build in `vendor/` for downloading video and audio. Downloads go to `.out/downloads/`. It needs ffmpeg on PATH for merging and converting (`winget install ffmpeg` / `brew install ffmpeg`).
 - **`skills/browser/`** is the Claude Code skill. It explains when to use each tool and includes Microsoft's official `playwright-cli` docs in `reference/`.
 
 ## Setup
 
 ```bash
-npm run setup          # npm ci + download the CLI's Chromium build + sync reference docs
+npm run setup          # npm ci + download the CLI's Chromium build + sync reference docs + download yt-dlp
 npm run install-skill  # junction skills/browser -> ~/.claude/skills/browser
 npm run smoke          # end-to-end check via run.mjs
 ```

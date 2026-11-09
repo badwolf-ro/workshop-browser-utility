@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# ytdl - repo-local wrapper around yt-dlp (installed by `npm run install-yt-dlp`).
+# Downloads land in <repo>/.out/downloads unless you pass -P/--paths or -o yourself.
+set -e
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && (pwd -W 2>/dev/null || pwd))"
+OUT="${YTDL_OUT_DIR:-$ROOT/.out/downloads}"
+exec "$ROOT/vendor/yt-dlp" -P "$OUT" "$@"
