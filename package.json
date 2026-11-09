@@ -5,8 +5,9 @@
   "description": "Playwright-based browser utility and skill for Claude Code",
   "type": "module",
   "scripts": {
-    "setup": "npm ci && node node_modules/@playwright/cli/playwright-cli.js install-browser chrome-for-testing && npm run sync-skill",
+    "setup": "npm ci && node node_modules/@playwright/cli/playwright-cli.js install-browser chrome-for-testing && npm run sync-skill && npm run install-yt-dlp",
     "sync-skill": "node scripts/sync-official-skill.mjs",
+    "install-yt-dlp": "node scripts/install-yt-dlp.mjs",
     "install-skill": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-skill.ps1",
     "smoke": "node bin/run.mjs scripts/smoke.mjs -- https://example.com"
   },

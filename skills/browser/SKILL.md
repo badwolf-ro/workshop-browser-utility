@@ -1,7 +1,7 @@
 ---
 name: browser
-description: Claude Code's own headless/headed browser (Playwright). Use whenever a task needs a real web browser and the person has not asked for their own Chrome - open or read a web page that WebFetch can't handle (JS-rendered, login-gated, interactive), check or screenshot a local dev server (localhost), click through and test a web app UI, fill forms, inspect console errors or network requests, emulate mobile/dark mode, scrape structured data, record a video/trace, or write and debug Playwright tests. Triggers - "open this site", "take a screenshot", "check localhost", "test the UI", "scrape", "playwright", "headless browser", "see if the page works".
-allowed-tools: Bash(D:/BrowserUtility/bin/pw:*) Bash(node D:/BrowserUtility/bin/run.mjs:*)
+description: Claude Code's own headless/headed browser (Playwright). Use whenever a task needs a real web browser and the person has not asked for their own Chrome - open or read a web page that WebFetch can't handle (JS-rendered, login-gated, interactive), check or screenshot a local dev server (localhost), click through and test a web app UI, fill forms, inspect console errors or network requests, emulate mobile/dark mode, scrape structured data, record a video/trace, write and debug Playwright tests, or download video/audio from YouTube and other sites (yt-dlp). Triggers - "open this site", "take a screenshot", "check localhost", "test the UI", "scrape", "playwright", "headless browser", "see if the page works", "download this video", "yt-dlp", "get the audio from".
+allowed-tools: Bash(D:/BrowserUtility/bin/pw:*) Bash(node D:/BrowserUtility/bin/run.mjs:*) Bash(D:/BrowserUtility/bin/ytdl:*)
 ---
 
 # Browser (Playwright)
@@ -73,6 +73,23 @@ node D:/BrowserUtility/bin/run.mjs <scratchpad>/titles.mjs -- https://example.co
 `out(name)` -> path in `D:/BrowserUtility/.out/` (override with env `PW_OUT_DIR`). Non-zero exit + stack trace on error; the browser always closes.
 
 Prefer locators that survive markup changes: `page.getByRole('button', { name: 'Save' })`, `getByLabel`, `getByText`, `getByTestId` - over CSS. Use `await expect`-style waits via `locator.waitFor()` instead of fixed sleeps.
+
+## `ytdl` - download video/audio (yt-dlp)
+
+`D:/BrowserUtility/bin/ytdl` is a standalone [yt-dlp](https://github.com/yt-dlp/yt-dlp) build (`vendor/yt-dlp`, installed by `npm run install-yt-dlp`). Files land in `D:/BrowserUtility/.out/downloads/` unless you pass `-P <dir>`. Merging and converting need ffmpeg on PATH. From PowerShell use `D:\BrowserUtility\bin\ytdl.cmd`.
+
+```bash
+YT=D:/BrowserUtility/bin/ytdl
+$YT -F "<url>"                                  # list available formats
+$YT "<url>"                                     # best video+audio, merged
+$YT -f "bv*[height<=1080]+ba/b" "<url>"         # cap resolution
+$YT -x --audio-format mp3 "<url>"               # audio only
+$YT --write-subs --sub-langs en --skip-download "<url>"   # subtitles only
+$YT -j "<url>"                                  # metadata as JSON, no download
+$YT -U                                          # upgrade yt-dlp itself
+```
+
+Quote URLs. Download only what the person asked for (no whole playlists/channels unless they said so), and only content they have the right to save. Report the absolute path of each file.
 
 ## Local dev servers
 
